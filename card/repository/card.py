@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import desc
 from card import models, schemas
 from fastapi import HTTPException, status
 
@@ -27,7 +28,6 @@ def destroy(id:int, db: Session):
     if not card.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail = f"Card with id {id} not found")
-
     card.delete(synchronize_session=False)                              
     db.commit()
     return "done"
@@ -45,7 +45,7 @@ def update(id:int, request: schemas.Card, db:Session):
 
 
 def show(name:str, db:Session):
-    card = db.query(models.Card).filter(models.Card.name == name).first()
+    card = db.query(models.Card).filter(models.Card.name == name).order_by(desc()).first()
 
     if not card:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = f"Card with the name {name} is not available" )  
