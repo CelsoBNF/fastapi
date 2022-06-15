@@ -2,6 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+Deploy in this link: https://cryptic-castle-13164.herokuapp.com/docs#/
+    
+    ## Deploy foi feito usando Heroku
+
 SQLACLHEMY_DATABASE_URL = 'sqlite:///./card.db'
 
 engine = create_engine(SQLACLHEMY_DATABASE_URL, connect_args={
