@@ -4,4 +4,5 @@ sqlalchemy
 passlib
 python-jose
 python-multipart
-pylint
+pytest
+flake8
