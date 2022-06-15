@@ -37,7 +37,8 @@ def update(id:int, request: schemas.Card, db:Session):
     card = db.query(models.Card).filter(models.Card.id == id )
 
     if not card.first():
-        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail = f"Card with id {id} not found")
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, 
+                            detail = f"Card with id {id} not found")
 
     card.update(request)
     db.commit()
