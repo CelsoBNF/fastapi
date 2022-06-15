@@ -30,7 +30,7 @@ RETORNO:
     "token_type": "bearer"
 }
 ```
-Ao ter o token em mãos é necessário ir em authorization no campo Type seleciona " BEARER TOKEN " e colar o token no campo.
+Após isso, favor ir em Authenticate e colocar o mesmo username e password
 
 ## Começando
 
