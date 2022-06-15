@@ -7,6 +7,7 @@ from card.routers import card, user
 
 app = FastAPI()
 
+
 models.Base.metadata.create_all(engine)
 
 app.include_router(authentication.router)
