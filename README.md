@@ -1,32 +1,33 @@
-# Teste Zappts (Carta do papai noel - API)
+# Teste Zappts (Magic The Gathering)
 
 ## Apresentação
 
-Este documento é para apresentar o funcionamento da implementação das rotas para cadastro de uma carta para o Papai Noel. Foi realizado em python juntamente com o frameworks FLASK, pois por se tratar de um micro-frameworks, instala-se apenas o necessário.
+Este documento é para apresentar o funcionamento da implementação das rotas para cadastro de um jogo de cartas chamado Magic the Gathering. Foi realizado em python tendo como principal framework FastAPI.
 
-Tive um pouco de dificuldade com o deploy da api, pois raramente executo este tipo de serviço.
+OBS: Tive dificuldade ao realizar o deploy, não é do meu usual fazer o mesmo.
 
 ## Autenticação
 
-Esta API está usando como proteção de algumas rotas o JWT.
-Para se autenticar é preciso utilizar a seguinte rota:
+Está sendo usado nesta API a rota de proteção JWT. Logo,
+para o acesso/autenticação da mesma será necessário entrar na rota:
 
 ```url
-/carta/login
+/docs
 ```
 
-BODY:
+Entrando em "/Docs", na requisição POST de Login,:
 ```json
 {
-    "remetente": "Marcos c",
-    "password": "123deoliveira4",
+    "username": "zappts@teste.com",
+    "password": "zappts",
 }
 ```
 RETORNO:
 
 ```json
 {
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyMzYxOTcxMCwianRpIjoiNjg2ZDFhOGYtOGViNS00Y2U4LWJlNTgtODM4ZDljMDNhOTcyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjIzNjE5NzEwLCJleHAiOjE2MjM2MjA2MTB9.dvAXYH9sp4giQG886LYZYxGnhuLBr_k5djI_hastcLY"
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ6YXBwdHNAdGVzdGUuY29tIiwiZXhwIjoxNjU1MzA5MDE2fQ.BIdYjV0fnSB_SJupQKCb7Lgst5rosZcdi8IYSlnrHC8",
+    "token_type": "bearer"
 }
 ```
 Ao ter o token em mãos é necessário ir em authorization no campo Type seleciona " BEARER TOKEN " e colar o token no campo.
@@ -40,17 +41,17 @@ Para acessar a api serão necessários os seguites requisitos:
 
 ## Desenvolvimento
 
-Para iniciar o desenvolvimento, é necessário clonar o projeto do github em um diretório de sua preferência.
+Para o inicio do desenvolvimento, será necessário clonar o projeto do github em seu diretório.
 
 ```commandline
 mkdir "diretório_de_sua_preferência"
 cd "diretório_de_sua_preferência"
-git clone https://github.com/mcribeiro27/zappts
+git clone https://github.com/CelsoBNF/fastapi
 ```
 
 ## Construção
 
-Para construir o projeto, execute os comandos abaixo dentro da pasta onde baixou o projeto.
+Para iniciar a construção da API, execute os comandos abaixo em sua pasta do projeto.
 
 Para ambiente Unix
 ```commandline
@@ -67,98 +68,125 @@ virtualenv venv
 venv/Scripts/activate.bat
 pip install -r requirements.txt
 ```
-O comando irá montar o ambiente e instalar todos os módulos necessário para  o sistema.
+Este comando instalará todos os módulos necessários para este projeto.
 
-## Configuração
-
-Ao iniciar o sistema teremos que criar o banco de dados, o sistema está configurado para trabalhar com o SQLite.
-Para criar o banco execute o seguinte comando:
-```commandline
-flask create-db
-```
-Ao executar sera criado o banco. Apartir daí podemos testar os end-points.
 
 ### Carta
-Através desta rota conseguimos cadastrar, listar, buscar, modificar e apagar uma Carta na API - Carta do Papai Noel
+Nesta rota conseguimos cadastrar, listar, buscar, modificar e deletar uma carta na API
 
-POST - Para cadastro de uma nova carta
+POST - Para cadastrar uma nova carta
 ```url
-/carta
+/card
 ```
 
 BODY:
 ```json
 {
-    "cartaId": 1, 
-    "remetente": "Marcos c",
-    "password": "123deoliveira4",
-    "conteudo": "Quero um playstation 5"
+    "name": "Calculating Lich",
+  "edition": "Menace",
+  "language": "EN",
+  "foil": "No",
+  "price": 80,
+  "quantity": 1
 }
 ```
 RETORNO:
 
 ```json
 {
-    "cartaId": 1, 
-    "remetente": "Marcos c",
-    "password": "123deoliveira4",
-    "conteudo": "Quero um playstation 5"
+    "edition": "Menace",
+  "name": "Calculating Lich",
+  "foil": "No",
+  "quantity": 1,
+  "id": 4,
+  "language": "EN",
+  "price": 80,
+  "user_id": 1
 }
 ```
 GET - Para listar todas as cartas
 
 ```url
-/carta
+/card
 ```
 
 RETORNO:
 
 ```json
 {
-    "cartas": [
-        {
-            "cartaId": 1,
-            "remetente": "Marcos c",
-            "password": "123deoliveira4",
-            "conteudo": "Quero um playstation 5"
-        }
-    ]
+    [
+  {
+    "player": {
+      "name": "string",
+      "email": "string",
+      "cards": []
+    },
+    "name": "string",
+    "edition": "string",
+    "language": "string",
+    "foil": "string",
+    "price": 0,
+    "quantity": 0
+  }
+]
 }
 ```
-GET by id - Para buscar uma carta especifica.
+GET by Name - Para buscar uma carta especifica (Pelo nome).
 ```url
-/carta/{cartaId}
+/card/{name}
 ```
 RETORNO:
 ```json
 {
-    "cartaId": 1,
-    "remetente": "Marcos c",
-    "password": "123deoliveira4",
-    "conteudo": "Quero um playstation 5"
+    "player": {
+    "name": "Celso",
+    "email": "zappts@teste.com",
+    "cards": [
+      {
+        "name": "teste1",
+        "edition": "teste2",
+        "language": "teste3",
+        "foil": "teste4",
+        "price": 0,
+        "quantity": 0
+      },
+      {
+        "name": "teste2",
+        "edition": "teste3",
+        "language": "string",
+        "foil": "string",
+        "price": 0,
+        "quantity": 0
+      },
 }
 ```
 
 PUT - Para atualizar uma carta. Esta rota precisa estar logada para funcionar
 ```url
-/carta/{cartaId}
+/card/{id}
 ```
 BODY:
 ```json
 {
-    "remetente": "Marcos Cesar",
-    "password": "123deoliveira4",
-    "conteudo": "Quero um playstation 5"
+    "name": "changename",
+  "edition": "string",
+  "language": "string",
+  "foil": "string",
+  "price": 0,
+  "quantity": 0
 }
 ```
 RETORNO:
 
 ```json
 {
-    "cartaId": 1, 
-    "remetente": "Marcos Cesar",
-    "password": "123deoliveira4",
-    "conteudo": "Quero um playstation 5"
+    "id": 1
+    "name": "changename",
+  "edition": "string",
+  "language": "string",
+  "foil": "string",
+  "price": 0,
+  "quantity": 0
 }
 ```
 
@@ -166,23 +194,14 @@ RETORNO:
 DELETE - Para apagar uma carta. Esta rota precisa estar logada para funcionar
 
 ```url
-/carta/{cartaId}
+/card/{id}
 ```
 RETORNO:
 ```json
 {
-    "message": "carta deleted"
+    "message": "done"
 }
 ```
 
 ## Testes
 Lembrando que o banco de dados deve estar criado. Caso não esteja execute o seguinte comando:
-
-```commandline
-flask create-db
-```
-
-Todos os testes foram realizados com a biblioteca PYTEST, onde para executar basta rodar no terminal o seguinte comando. 
-```commandline
-pytest
-```
