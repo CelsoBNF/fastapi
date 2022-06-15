@@ -45,7 +45,7 @@ def update(id:int, request: schemas.Card, db:Session):
 
 
 def show(name:str, db:Session):
-    card = db.query(models.Card).filter(models.Card.name == name).order_by(desc()).first()
+    card = db.query(models.Card).filter(models.Card.name == name).first()
 
     if not card:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = f"Card with the name {name} is not available" )  
